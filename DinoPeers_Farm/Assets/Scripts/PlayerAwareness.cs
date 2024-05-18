@@ -5,27 +5,81 @@ using UnityEngine;
 public class PlayerAwareness : MonoBehaviour
 {
     public Transform player;
-    public float awarenessRadius = 10f;
-    public float EnemySpeed = 0.1f;
+    public float awarenessRadius = 5f;
+    public float enemySpeed = 1.5f;
+    public List<Transform> riceCrops;  
+    private Transform nearestRiceCrop;
+    private bool playerInAwarenessRadius = false;
+    private bool isAttacking;
 
     void Start()
     {
-
+        // finds the nearest rice crop
+        if (riceCrops != null && riceCrops.Count > 0)
+        {
+            nearestRiceCrop = FindNearestRiceCrop();
+        }
     }
 
     void Update()
     {
-        if (Vector3.Distance(player.position, transform.position) < awarenessRadius)
+        // finds the nearest rice crop
+        if (riceCrops != null && riceCrops.Count > 0)
         {
-
-            Quaternion targetRotation = Quaternion.LookRotation(player.position - transform.position);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, EnemySpeed * Time.deltaTime);
-
-            // Move towards the player
-            transform.position += transform.forward * EnemySpeed * Time.deltaTime;
+            nearestRiceCrop = FindNearestRiceCrop();
         }
-        
+
+        // Check if the enemy is not attacking
+        if (!isAttacking) 
+        {
+            // Check if the player is within the awareness radius
+            if (Vector3.Distance(player.position, transform.position) < awarenessRadius)
+            {
+                playerInAwarenessRadius = true;
+            }
+            else
+            {
+                playerInAwarenessRadius = false;
+            }
+
+            if (playerInAwarenessRadius)
+            {
+                MoveTowards(player);
+            }
+            else if (nearestRiceCrop != null)
+            {
+                MoveTowards(nearestRiceCrop);
+            }
+        }
+    }
+
+    private void MoveTowards(Transform target)
+    {
+        // Rotate towards the target
+        Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemySpeed * Time.deltaTime);
+
+        // Move towards the target
+        transform.position += transform.forward * enemySpeed * Time.deltaTime;
+    }
+
+    private Transform FindNearestRiceCrop()
+    {
+        Transform nearest = null;
+        float minDistance = float.MaxValue;
+
+        // Find the nearest rice crop
+        foreach (Transform crop in riceCrops)
+        {
+            float distance = Vector3.Distance(transform.position, crop.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearest = crop;
+            }
+        }
+
+        return nearest;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -33,7 +87,30 @@ public class PlayerAwareness : MonoBehaviour
     // Check if the colliding object is the player
     if (other.transform == player)
     {
-        Debug.Log("Enemy collided with the player");
+        Debug.Log("Enemy is attacking!");
+        isAttacking = true;
+    }
+    // Check if the colliding object is a rice crop
+    else if (other.gameObject.CompareTag("RiceCrop"))
+    {
+        Debug.Log("Enemy collided with a rice crop!");
+        isAttacking = true;
+    }
+}
+
+void OnTriggerExit2D(Collider2D other)
+{
+    // Check if the object that stopped colliding is the player
+    if (other.transform == player)
+    {
+        Debug.Log("Enemy stopped attacking!");
+        isAttacking = false;
+    }
+    // Check if the object that stopped colliding is a rice crop
+    else if (other.gameObject.CompareTag("RiceCrop"))
+    {
+        Debug.Log("Enemy stopped colliding with a rice crop!");
+        isAttacking = false; 
     }
 }
 }
