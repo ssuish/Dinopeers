@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Timer : MonoBehaviour
+{
+    public Text gameTimerText;
+    float gameTimer = 1200f;
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (gameTimer > 0)
+        {
+            gameTimer -= Time.deltaTime;
+
+            int seconds = (int)(gameTimer % 60);
+            int minutes = (int)(gameTimer / 60) % 60;
+            string timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
+            gameTimerText.text = timerString;
+        }
+        else
+        {
+            gameTimer = 0;
+            gameTimerText.text = "00:00";
+        }
+    }
+}
