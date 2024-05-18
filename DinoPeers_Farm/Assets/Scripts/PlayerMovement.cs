@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 4f;
+    public float moveSpeed = 10f;
     public bool isMoving;
     public Vector2 input;
     private Animator _animator;
@@ -22,8 +22,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isMoving)
         {
-            input.x = Input.GetAxisRaw("Horizontal");
-            input.y = Input.GetAxisRaw("Vertical");
+            input.x = Input.GetAxis("Horizontal");
+            input.y = Input.GetAxis("Vertical");
             
             if (input.x != 0)
             {
