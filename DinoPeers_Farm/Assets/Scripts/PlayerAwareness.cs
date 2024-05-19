@@ -5,110 +5,93 @@ using UnityEngine;
 public class PlayerAwareness : MonoBehaviour
 {
     public Transform player;
-    public float awarenessRadius = 5f;
-    public float enemySpeed = 1.5f;
-    public List<Transform> riceCrops;  
-    private Transform nearestRiceCrop;
-    private bool playerInAwarenessRadius = false;
-    private bool isAttacking;
+    public List<Transform> riceCrops;       
+    public float detectionRadius = 1f;
+    public float enemySpeed = 0.5f;
 
     void Start()
     {
-        // finds the nearest rice crop
-        if (riceCrops != null && riceCrops.Count > 0)
+        // Find all game objects with the "RiceCrop" tag
+        GameObject[] riceCropObjects = GameObject.FindGameObjectsWithTag("RiceCrop");
+
+        // Get the transform of each rice crop and add it to the list
+        foreach (GameObject riceCropObject in riceCropObjects)
         {
-            nearestRiceCrop = FindNearestRiceCrop();
+            riceCrops.Add(riceCropObject.transform);
         }
     }
 
     void Update()
     {
-        // finds the nearest rice crop
-        if (riceCrops != null && riceCrops.Count > 0)
+        // Check if the player is within the detection radius
+        if (Vector2.Distance(transform.position, player.position) < detectionRadius)
         {
-            nearestRiceCrop = FindNearestRiceCrop();
+            Debug.Log("Player is within detection radius");
+            MoveTowards(player);
         }
-
-        // Check if the enemy is not attacking
-        if (!isAttacking) 
+        else 
         {
-            // Check if the player is within the awareness radius
-            if (Vector3.Distance(player.position, transform.position) < awarenessRadius)
+            // Check if any of the rice crops are within the detection radius
+            foreach (Transform riceCrop in riceCrops)
             {
-                playerInAwarenessRadius = true;
+                if (Vector2.Distance(transform.position, riceCrop.position) < detectionRadius)
+                {
+                    Debug.Log("Rice crop is within detection radius");
+                    MoveTowards(riceCrop);
+                    break;
+                }
             }
-            else
-            {
-                playerInAwarenessRadius = false;
-            }
+        }
+    }
 
-            if (playerInAwarenessRadius)
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // Check if the player entered the box collider
+        if (other.transform == player)
+        {
+            Debug.Log("Player is being attacked");
+        }
+        else 
+        {
+            // Check if the rice crop entered the box collider
+            foreach (Transform riceCrop in riceCrops)
             {
-                MoveTowards(player);
+                if (other.transform == riceCrop)
+                {
+                    Debug.Log("Rice crop is being attacked");
+                    break;
+                }
             }
-            else if (nearestRiceCrop != null)
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        // Check if the player is still in the box collider
+        if (other.transform == player)
+        {
+            Debug.Log("Player is still being attacked");
+        }
+        else 
+        {
+            // Check if the rice crop is still in the box collider
+            foreach (Transform riceCrop in riceCrops)
             {
-                MoveTowards(nearestRiceCrop);
+                if (other.transform == riceCrop)
+                {
+                    Debug.Log("Rice crop is still being attacked");
+                    break;
+                }
             }
         }
     }
 
     private void MoveTowards(Transform target)
-    {
-        // Calculate the direction towards the target
-        Vector2 directionToTarget = (target.position - transform.position).normalized;
-
-        // Move towards the target
-        transform.position += new Vector3(directionToTarget.x, directionToTarget.y, 0) * enemySpeed * Time.deltaTime;
-    }
-    private Transform FindNearestRiceCrop()
-    {
-        Transform nearest = null;
-        float minDistance = float.MaxValue;
-
-        // Find the nearest rice crop
-        foreach (Transform crop in riceCrops)
-        {
-            float distance = Vector3.Distance(transform.position, crop.position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                nearest = crop;
-            }
-        }
-
-        return nearest;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
 {
-    // Check if the colliding object is the player
-    if (other.transform == player)
-    {
-        Debug.Log("Enemy is attacking!");
-        isAttacking = true;
-    }
-    // Check if the colliding object is a rice crop
-    else if (other.gameObject.CompareTag("RiceCrop"))
-    {
-        Debug.Log("Enemy collided with a rice crop!");
-        isAttacking = true;
-    }
-}
+    // Calculate the direction towards the target
+    Vector2 directionToTarget = (target.position - transform.position).normalized;
 
-void OnTriggerExit2D(Collider2D other)
-{
-    // Check if the object that stopped colliding is the player
-    if (other.transform == player)
-    {
-        Debug.Log("Enemy stopped attacking!");
-        isAttacking = false;
-    }
-    // Check if the object that stopped colliding is a rice crop
-    else if (other.gameObject.CompareTag("RiceCrop"))
-    {
-        Debug.Log("Enemy stopped colliding with a rice crop!");
-        isAttacking = false; 
-    }
+    // Move towards the target
+    transform.position += new Vector3(directionToTarget.x, directionToTarget.y, 0) * enemySpeed * Time.deltaTime;
 }
 }
