@@ -103,6 +103,9 @@ MonoBehaviour:
   moveSpeed: 2
   isMoving: 0
   input: {x: 0, y: 0}
+  boundaryLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &1868041768817428294
 Rigidbody2D:
   serializedVersion: 4
