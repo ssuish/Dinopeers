@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     public Image healthBar;   
     public int maxHealth = 800;
     private int currentHealth;
+    
 
     void Awake()
     {
