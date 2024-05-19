@@ -49,7 +49,7 @@ public class monsterSpawner : MonoBehaviour
 
     public void GenerateWave() 
     {
-        waveValue = currWave * 10;
+        waveValue = currWave * 15;
         GenerateEnemies();
     }
 
