@@ -26,7 +26,7 @@ public class EnemyAC : MonoBehaviour
         {
             _spriteRenderer.flipX = false;
         }
-        else
+        else 
         {
             _spriteRenderer.flipX = true;
         }
