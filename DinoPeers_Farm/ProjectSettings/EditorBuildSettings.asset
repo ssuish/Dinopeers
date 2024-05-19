@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: e32877418385f094eb26b394468fb04b
+  - enabled: 1
+    path: Assets/Scenes/DinoFarm.unity
+    guid: b68e611ee1f6a7e43b2cc9a6afc30b13
   m_configObjects: {}
