@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 9215963890331938199}
   - component: {fileID: 3744368616185652831}
   - component: {fileID: 2997251647052075919}
-  - component: {fileID: 6864438308630349937}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,9 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2050316643259261285, guid: f9600832f0abf1a4aa966b41dd11df89, type: 3}
-  awarenessRadius: 10
-  enemySpeed: 1.5
   riceCrops: []
+  detectionRadius: 1
+  enemySpeed: 1.5
 --- !u!50 &3744368616185652831
 Rigidbody2D:
   serializedVersion: 4
@@ -176,38 +175,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6071315, y: 1.3646107}
   m_EdgeRadius: 0
---- !u!58 &6864438308630349937
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6408358797514679839}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.11075474, y: 0}
-  serializedVersion: 2
-  m_Radius: 2.8089778
