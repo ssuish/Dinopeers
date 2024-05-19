@@ -44,14 +44,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 bool success = TryMove(input);
 
-                if (!success)
-                {
-                    success = TryMove(new Vector2(input.x, 0));
-                    if (!success)
-                    {
-                        success = TryMove(new Vector2(0, input.y));
-                    }
-                }
+                
 
                 _animator.SetBool("IsMoving", success);
             }
@@ -70,11 +63,11 @@ public class PlayerMovement : MonoBehaviour
                 Vector2.zero, 
                 movementContactFilter, 
                 _hitBuffer,
-                moveSpeed * Time.fixedDeltaTime + collisionOffset);
+                moveSpeed * Time.deltaTime + collisionOffset);
 
             if (count == 0)
             {
-                _rigidbody2D.MovePosition(_rigidbody2D.position + direction * moveSpeed * Time.fixedDeltaTime);
+                _rigidbody2D.MovePosition(_rigidbody2D.position + direction * moveSpeed * Time.deltaTime);
                 return true;
             }
             else
@@ -86,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
                     Vector2 tangentMovement = direction - alongNormal;
                     if (_rigidbody2D.Cast(tangentMovement, movementContactFilter, _hitBuffer, moveSpeed * Time.fixedDeltaTime + collisionOffset) == 0)
                     {
-                        _rigidbody2D.MovePosition(_rigidbody2D.position + tangentMovement * moveSpeed * Time.fixedDeltaTime);
+                        _rigidbody2D.MovePosition(_rigidbody2D.position + tangentMovement * moveSpeed * Time.deltaTime);
                         return true;
                     }
                 }
