@@ -34,6 +34,7 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("Game Over");
+        // Change scene to game over scene
         Destroy(gameObject);
     }
 }

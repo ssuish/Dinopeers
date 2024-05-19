@@ -8,7 +8,8 @@ public class PlayerAwareness : MonoBehaviour
     public List<Transform> riceCrops;       
     public float detectionRadius = 1f;
     public float enemySpeed = 0.5f;
-
+    public PlayerStats playerStats;
+    
     void Start()
     {
         // Find all game objects with the "RiceCrop" tag
@@ -69,6 +70,7 @@ public class PlayerAwareness : MonoBehaviour
                 if (other.transform == riceCrop)
                 {
                     Debug.Log("Rice crop is being attacked");
+                    playerStats.TakeDamage(15);
                     break;
                 }
             }
