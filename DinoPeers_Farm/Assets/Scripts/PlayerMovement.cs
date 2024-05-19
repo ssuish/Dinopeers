@@ -10,7 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 input;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    
+    public GameObject attackHitbox;
+    public float attackDuration = 0.5f;
+    public float attackRotationSpeed = 720f;
+    public float attackEffectDelay = 0.2f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementContactFilter;
     private Rigidbody2D _rigidbody2D;
@@ -114,4 +117,29 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("IsMoving", false);
     }
     */
+
+    void OnFire()
+    {
+        _animator.SetTrigger("IsAttacking");
+        //StartCoroutine(DelayCoroutine());
+        //StartCoroutine(ShowAttackEffect());
+    }
+    
+    /*private IEnumerator ShowAttackEffect()
+    {
+        attackHitbox.SetActive(true);
+        float attackTimer = 0;
+        while (attackTimer < attackDuration)
+        {
+            attackTimer += Time.deltaTime;
+            attackHitbox.transform.Rotate(Vector3.forward, attackRotationSpeed * Time.deltaTime);
+            yield return null;
+        }
+        attackHitbox.SetActive(false);
+    }
+    
+    IEnumerator DelayCoroutine()
+    {
+        yield return new WaitForSeconds(attackEffectDelay);
+    }*/
 }
