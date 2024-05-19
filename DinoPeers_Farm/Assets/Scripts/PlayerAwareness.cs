@@ -55,14 +55,12 @@ public class PlayerAwareness : MonoBehaviour
 
     private void MoveTowards(Transform target)
     {
-        // Rotate towards the target
-        Quaternion targetRotation = Quaternion.LookRotation(target.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemySpeed * Time.deltaTime);
+        // Calculate the direction towards the target
+        Vector2 directionToTarget = (target.position - transform.position).normalized;
 
         // Move towards the target
-        transform.position += transform.forward * enemySpeed * Time.deltaTime;
+        transform.position += new Vector3(directionToTarget.x, directionToTarget.y, 0) * enemySpeed * Time.deltaTime;
     }
-
     private Transform FindNearestRiceCrop()
     {
         Transform nearest = null;
