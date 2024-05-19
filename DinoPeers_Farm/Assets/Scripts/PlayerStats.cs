@@ -5,45 +5,35 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    public Text playerHealthText; 
-    public int maxHealth = 800; 
-    private int currentHealth; 
+    public Image healthBar;   
+    public int maxHealth = 800;
+    private int currentHealth;
 
     void Awake()
     {
-        currentHealth = maxHealth; 
-        UpdatePlayerHealthUI(); 
+        currentHealth = maxHealth;
+        UpdatePlayerHealthUI();
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage; 
-        UpdatePlayerHealthUI(); 
+        currentHealth -= damage;
+        UpdatePlayerHealthUI();
 
         if (currentHealth <= 0)
         {
-            Die(); 
+            Die();
         }
     }
 
     void UpdatePlayerHealthUI()
     {
-
-        int currentHearts = Mathf.CeilToInt((float)currentHealth / (maxHealth / 8));
-
-        string healthText = "Hearts: " + currentHearts + "\n";
-    
-        int currentHeartHealth = currentHealth % (maxHealth / 8);
-        healthText += "Current Heart HP: " + currentHeartHealth + "/" + (maxHealth / 8);
-
-        playerHealthText.text = healthText;
+        healthBar.fillAmount = (float)currentHealth / maxHealth;
     }
-
-
 
     void Die()
     {
         Debug.Log("Game Over");
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 }
