@@ -31,15 +31,25 @@ public class PlayerAwareness : MonoBehaviour
         }
         else 
         {
-            // Check if any of the rice crops are within the detection radius
+           // finds the nearest rice crop
+            Transform nearestRiceCrop = null;
+            float nearestRiceCropDistance = Mathf.Infinity;
+
             foreach (Transform riceCrop in riceCrops)
             {
-                if (Vector2.Distance(transform.position, riceCrop.position) < detectionRadius)
+                float distanceToRiceCrop = Vector2.Distance(transform.position, riceCrop.position);
+
+                if (distanceToRiceCrop < nearestRiceCropDistance)
                 {
-                    Debug.Log("Rice crop is within detection radius");
-                    MoveTowards(riceCrop);
-                    break;
+                    nearestRiceCrop = riceCrop;
+                    nearestRiceCropDistance = distanceToRiceCrop;
                 }
+            }
+
+            if (nearestRiceCrop != null)
+            {
+                Debug.Log("Rice crop is within detection radius");
+                MoveTowards(nearestRiceCrop);
             }
         }
     }
