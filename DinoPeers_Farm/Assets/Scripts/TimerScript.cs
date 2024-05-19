@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public Text gameTimerText;
+    [SerializeField] Text CountdownTimer;
+
     float gameTimer = 1200f;
 
     // Update is called once per frame
@@ -18,12 +19,12 @@ public class Timer : MonoBehaviour
             int seconds = (int)(gameTimer % 60);
             int minutes = (int)(gameTimer / 60) % 60;
             string timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
-            gameTimerText.text = timerString;
+            CountdownTimer.text = timerString;
         }
         else
         {
             gameTimer = 0;
-            gameTimerText.text = "00:00";
+            CountdownTimer.text = "00:00";
         }
     }
 }
